@@ -7,85 +7,91 @@
 	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 	<style>
 		body {
-			background-color: #0d1117;
-			color: #c9d1d9;
+			background-color: #0d1117; /* GitHub dark background */
+			color: #c9d1d9; /* GitHub primary text color */
 			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-			padding: 20px;
+			font-size: 14px; /* GitHub’s base font size */
+			line-height: 1.5; /* GitHub’s line height for readability */
+			padding: 16px; /* Reduced padding to match GitHub’s tighter layout */
 			margin: 0;
 			box-sizing: border-box;
-			height: 100vh;
+			min-height: 100vh;
 		}
-		#table-container {
+		#content-container {
 			width: 100%;
-			max-width: 900px;
-			margin: auto;
+			max-width: 500px; /* GitHub’s typical content width */
+			margin: 0 auto; /* Centered like GitHub */
+		}
+		h1 {
+			color: #c9d1d9; /* Same as body text */
+			font-size: 24px; /* GitHub’s <h1> size */
+			font-weight: 600; /* Slightly bold */
+			line-height: 1.25;
+			margin-top: 0;
+			margin-bottom: 16px; /* GitHub’s spacing below headings */
+			padding-bottom: 0.3em; /* Mimics GitHub’s subtle heading underline effect */
+			border-bottom: 1px solid #30363d; /* GitHub’s heading underline */
 		}
 		table {
-			width: 100%;
-			border-collapse: collapse;
-			background-color: #161b22;
-			border: 1px solid #30363d;
-			border-radius: 6px;
+			border-collapse: separate; /* GitHub uses separate borders */
+			border-spacing: 0; /* No gaps between cells */
+			margin-bottom: 16px; /* Spacing below tables */
+			background-color: #0d1117; /* Matches body background */
+			border: 1px solid #30363d; /* GitHub’s table border */
+			border-radius: 6px; /* Slight rounding like GitHub */
 		}
 		th, td {
-			padding: 8px 12px;
-			border: 1px solid #30363d;
+			padding: 6px 13px; /* GitHub’s table cell padding */
+			border: 1px solid #30363d; /* GitHub’s cell borders */
+			vertical-align: top; /* GitHub aligns content to the top */
 		}
 		th {
-			background-color: #21262d;
-			color: #c9d1d9;
-			text-align: left;
+			background-color: #21262d; /* GitHub’s header background */
+			color: #c9d1d9; /* Header text color */
+			font-weight: 600; /* Bold headers */
+			text-align: left; /* Left-aligned like GitHub */
 		}
 		td {
-			color: #b1bac4;
+			color: #c9d1d9; /* GitHub uses the same text color for table content */
 		}
 		tr:nth-child(even) {
-			background-color: #161b22;
+			background-color: #161b22; /* GitHub’s even row background */
 		}
 		tr:nth-child(odd) {
-			background-color: #0d1117;
+			background-color: #0d1117; /* GitHub’s odd row background */
 		}
 		tr:hover {
-			background-color: #21262d;
+			background-color: #21262d; /* GitHub’s hover effect */
 		}
 		a {
-			color: #58a6ff;
-			text-decoration: none;
+			color: #58a6ff; /* GitHub’s link color */
+			text-decoration: none; /* No underline by default */
 		}
 		a:hover {
-			text-decoration: underline;
+			text-decoration: underline; /* Underline on hover like GitHub */
 		}
 	</style>
 </head>
 <body>
-	<div id="table-container">Loading...</div>
+	<div id="content-container">Loading stats...</div>
 
 	<script>
-		async function fetchAndRenderTable() {
+		async function fetchAndRenderData() {
 			const url = "https://raw.githubusercontent.com/InfiniteCraftStuff/All-5-Letter-Sequences/main/STATS.md";
 			try {
 				const response = await fetch(url);
 				const markdownText = await response.text();
 				const html = marked.parse(markdownText);
 
-				const tempDiv = document.createElement("div");
-				tempDiv.innerHTML = html;
-
-				const table = tempDiv.querySelector("table");
-
-				if (table) {
-					document.getElementById("table-container").innerHTML = table.outerHTML;
-				} else {
-					document.getElementById("table-container").innerText = "No table found!";
-				}
+				document.getElementById("content-container").innerHTML = html;
 			} catch (error) {
-				document.getElementById("table-container").innerText = "Error loading table!";
+				document.getElementById("content-container").innerText = "Error loading content!";
 				console.error(error);
 			}
 		}
 
-		fetchAndRenderTable();
-		setInterval(fetchAndRenderTable, 60000);
+		fetchAndRenderData();
+		setInterval(fetchAndRenderData, 120_000);
 	</script>
 </body>
 </html>
