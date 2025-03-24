@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Live GitHub Table</title>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<style>
+		body {
+			background-color: #0d1117;
+			color: #c9d1d9;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+			padding: 20px;
+		}
+		#table-container {
+			width: 100%;
+			max-width: 900px;
+			margin: auto;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			background-color: #161b22;
+			border: 1px solid #30363d;
+			border-radius: 6px;
+		}
+		th, td {
+			padding: 8px 12px;
+			border: 1px solid #30363d;
+		}
+		th {
+			background-color: #21262d;
+			color: #c9d1d9;
+			text-align: left;
+		}
+		td {
+			color: #b1bac4;
+		}
+		tr:nth-child(even) {
+			background-color: #161b22;
+		}
+		tr:nth-child(odd) {
+			background-color: #0d1117;
+		}
+		tr:hover {
+			background-color: #21262d;
+		}
+		a {
+			color: #58a6ff;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+	<div id="table-container">Loading...</div>
+
+	<script>
+		async function fetchAndRenderTable() {
+			const url = "https://raw.githubusercontent.com/InfiniteCraftStuff/All-5-Letter-Sequences/main/STATS.md";
+			try {
+				const response = await fetch(url);
+				const markdownText = await response.text();
+				const html = marked.parse(markdownText);
+
+				const tempDiv = document.createElement("div");
+				tempDiv.innerHTML = html;
+
+				const table = tempDiv.querySelector("table");
+
+				if (table) {
+					document.getElementById("table-container").innerHTML = table.outerHTML;
+				} else {
+					document.getElementById("table-container").innerText = "No table found!";
+				}
+			} catch (error) {
+				document.getElementById("table-container").innerText = "Error loading table!";
+				console.error(error);
+			}
+		}
+
+		fetchAndRenderTable();
+		setInterval(fetchAndRenderTable, 60000);
+	</script>
+</body>
+</html>
